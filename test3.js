@@ -21,7 +21,7 @@ $(document).ready(function(){
   });
 
 
-  var loadVideo = function(data){
+  var loadVideo = function(key,data){
     console.log(data);
     var src = data.src;
 
@@ -29,6 +29,7 @@ $(document).ready(function(){
     $source.attr("type","video/mp4");
     $source.attr("src",src);
     $("video").append($source);
+
   };
 
 
