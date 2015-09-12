@@ -12,9 +12,21 @@
   <script src="test2.js"></script>
 </head>
 <body>
-  <form action="/upload.html" role="form" method="POST" enctype="multipart/form-data">
-    <input type="file" class="cloudinary-fileupload" data-cloudinary-field="image_id" data-form-data="" name="video" id="video" accept="video/*"/>
+<!--   <form action="/upload.html" role="form" method="post" enctype="multipart/form-data">
+    <input type="file" class="cloudinary-fileupload" data-cloudinary-field="image_id" data-form-data="" name="file" id="video" accept="image/*"/>
     <input type="submit"/>
-  </form>
+  </form> -->
+  <a href="#" id="upload_widget_opener">Upload multiple images</a>
+
+  <script src="//widget.cloudinary.com/global/all.js" type="text/javascript"></script>  
+            
+  <script type="text/javascript">  
+    document.getElementById("upload_widget_opener").addEventListener("click", function() {
+
+      cloudinary.openUploadWidget({ cloud_name: 'dtniqc2hg', upload_preset: 'tzlbd8vc'}, 
+        function(error, result) { console.log(error, result) });
+
+    }, false);
+  </script>
 </body>
 </html>

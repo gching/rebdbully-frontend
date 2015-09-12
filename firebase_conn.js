@@ -2,6 +2,8 @@
 * Firebase API Class
 * ------------------------
 * Enables some simple functions to get and set from the firebase API
+* Will fetch single or all videos stored on cloudinary by fetching the URL location stored in Firebase
+* Will find documents for videos stored on firebase
 */
 
 
@@ -37,17 +39,19 @@ FirebaseConn.prototype.getVideos = function(callback){
 }
 
 // Retrieve a specific document by ID
-FirebaseConn.prototype.getDocument = function(videoKey,documentKey){
+FirebaseConn.prototype.getDocument = function(videoKey,documentKey,callback){
   this.dbRefVids.orderByKey().equalTo(videoKey).child(documentKey).on("child_added",function(data){
     console.log(data.key(),data.val());
+    callback(data.key(),data.val());
   });
 
 }
 
 // Fetch all Documents
-FirebaseConn.prototype.getDocuments = function(videoKey){
+FirebaseConn.prototype.getDocuments = function(videoKey,callback){
   this.dbRefVids.orderByKey().equalTo(videoKey).on('child_added',function(data){
     console.log("getDocuments",data.key(),data.val());
+    callback(data.key(),data.val());
   });
 }
 
