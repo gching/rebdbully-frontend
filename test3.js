@@ -7,6 +7,7 @@ $(document).ready(function(){
     $a.data("src",data.src);
     $a.data("id",key);
     $("ul").append($a);
+    $("ul").append($("<br/>"));
   }
 
   conn.getVideos(addVideo);

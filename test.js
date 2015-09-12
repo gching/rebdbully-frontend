@@ -8,7 +8,7 @@ $(document).ready(function(){
       var name = $("input[name='name']").val();
       var message = $("input[name='message']").val();
       var saveMessage = 'User ' + name + ' says ' + message
-      myDataRef.push({v_id: name, d_id:message, text:"TESTING TEXT"});
+      myDataRef.push({message: name, profileId:message, text:"TESTING TEXT"});
       $("input[name='message']").val('');
       console.log(saveMessage);
     }
