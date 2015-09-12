@@ -7,15 +7,16 @@
 */
 
 /**
- *
+ * // Example Data structure in NoSQL
+ * 
  * Videos 
  *    src
  *    title
  *    [List of Documents]
  *        Document
  *            owner
- *            [List of Notes]
- *                Note
+ *            [List of Sections]
+ *                section
  *                    message
  *                    subject
  * 
@@ -76,7 +77,7 @@ FirebaseConn.prototype.getDocuments = function(videoKey,callback){
   });
 }
 
-// Retrieve a specific document by ID
+// Retrieve a specific section for a specific document by ID
 // Requires a the key value representing the video, as well as the key name for the document
 // Requires a callback
 FirebaseConn.prototype.getSection = function(videoKey,documentKey,sectionKey,callback){
@@ -88,6 +89,7 @@ FirebaseConn.prototype.getSection = function(videoKey,documentKey,sectionKey,cal
   });
 }
 
+// Retrieves all sections for a specific video and a specific document
 FirebaseConn.prototype.getSections = function(videoKey,documentKey,callback){
   var videoRef = this.dbRefVids.child(videoKey);
   var docRef = videoRef.child("docs").child(documentKey);
@@ -103,6 +105,9 @@ FirebaseConn.prototype.getSections = function(videoKey,documentKey,callback){
  * -------------------------------
  */
 
+/**
+ * saves a section underneath a document, which is underneath a video
+ */
 FirebaseConn.prototype.setSection = function(note,title,videoKey,documentKey){
   // Create a new Document
   var videoRef = this.dbRefVids.child(videoKey);
@@ -118,6 +123,7 @@ FirebaseConn.prototype.setSection = function(note,title,videoKey,documentKey){
 }
 
 // Create new document, or update
+// Stores it under a documents list under a video
 FirebaseConn.prototype.setDocument = function(owner,videoKey,documentKey){
   if (videoKey === null || videoKey === ''){
     throw "ERROR: Cannot have undefined video key";

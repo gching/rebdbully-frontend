@@ -13,11 +13,8 @@ $(document).ready(function(){
   conn.getVideos(addVideo);
 
   $("body").on("click","a",function(e){
-
     e.preventDefault();
-
     conn.getVideo($(this).data("id"),loadVideo);
-
   });
 
 
@@ -29,7 +26,6 @@ $(document).ready(function(){
     $source.attr("type","video/mp4");
     $source.attr("src",src);
     $("video").append($source);
-
   };
 
 
