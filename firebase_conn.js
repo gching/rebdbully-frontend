@@ -52,9 +52,9 @@ FirebaseConn.prototype.getVideoKeyByUrl = function(url,callback){
   callback(key);
 }
 
-FirebaseConn.prototype.getLiveStream = function(url,callback){
+FirebaseConn.prototype.getLiveStream = function(url,callback,callback2){
   if (this.dbRefVids.orderByChild("src").equalTo(url).length>0){
-    this.getVideoKeyByUrl(url,callback);
+    this.getVideoKeyByUrl(url,callback2);
   }
   else{
     if (callback!=null && callback!= 'undefined'){
