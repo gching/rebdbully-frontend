@@ -23,7 +23,7 @@
 <body>
 
 <nav class="white" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="portal.html" class="brand-logo"><img src="img/logo.png" class="nav-logo"/></a>
+    <div class="nav-wrapper container"><a id="logo-container" href="index.html" class="brand-logo"><img src="img/logo.png" class="nav-logo"/></a>
 
       <ul id="nav-mobile" class="side-nav">
         <li><a href="#">Navbar Link</a></li>
@@ -83,13 +83,8 @@
           <p>Thumbnail Preview</p>
           <img src="" class="preview-image" style="display:none;" />
         </div>
-        <div class="col s12">
-          <label>Choose an optional meeting password.</label>
-          <input type="text" name="meeting-password" placeholder="(Optional) Meeting Password"/>
-        </div>
         <div class="col s12" style="padding-top: 40px;">
           <a href="#" id="upload-button" class="waves-effect waves-grey grey darken-3 btn"><i class="material-icons left">open_in_browser</i>Upload</a>
-          <p class="share-link">Share this link to invite others to watch this meeting: <a href="#" class="link"></a></p>
           
           <div id="results"></div>
           </div>
@@ -148,36 +143,46 @@
 
       var awsImageLoc = null;
        bucket.upload(paramsVideo, function (err, data) {
-         results.innerHTML = err ? 'ERROR!' : 'UPLOADED.';
+         // results.innerHTML = err ? 'ERROR!' : 'UPLOADED.';
 
          if (err){
+          Materialize.toast(err,3000);
           console.error(err);
           return;
          }
          console.log(data.Location,data.Key);
-         var conn = new FirebaseConn();
          var password = $("input[name='meeting-password']").val();
          var title = $("input[name='title']").val();
          var description = $("input[name='description']").val();
-         conn.setVideo(title,data.Location,awsImageLoc,data.Key,password,description);
+         var conn = new FirebaseConn();
+         var key = conn.setVideo(title,data.Location,awsImageLoc,data.Key,'',description);
 
          $(".share-link a").text(data.Location)
                               .attr("href",data.Location);
-         // window.location.replace = "browse.html";
+
+          Materialize.toast("Successfully uploaded presentation! Relocating to page shortly...",3000);
+          setTimeout(function(){
+             window.location = "player.html?key="+key;
+          },3000);
+
+
        });
 
        bucket.upload(paramsThumbnail, function (err, data) {
-         results.innerHTML = err ? 'ERROR THUMBNAIL!' : 'UPLOADED Thumbnail.';
+         // results.innerHTML = err ? 'ERROR THUMBNAIL!' : 'UPLOADED Thumbnail.';
 
          if (err){
+          Materialize.toast(err,3000);
           console.error(err);
           return;
          }
          awsImageLoc = data.Location;
 
+         Materialize.toast("Uploaded Thumbnail!",3000);
        });
      } else {
-       results.innerHTML = 'Nothing to upload.';
+         Materialize.toast("Nothing to upload!",3000);
+
      }
    }, false);
  </script>
