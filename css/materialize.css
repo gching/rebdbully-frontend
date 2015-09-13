@@ -5584,12 +5584,9 @@ small {
       position: absolute;
       bottom: 0;
       left: 0;
-      padding-top: 5px;
-      padding-left: 20px;
-      padding-bottom: 5px; }
+      padding: 20px; }
   .card .card-content {
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding: 20px;
     border-radius: 0 0 2px 2px; }
     .card .card-content p {
       margin: 0;
