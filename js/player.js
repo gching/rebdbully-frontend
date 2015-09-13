@@ -11,10 +11,15 @@ $(document).ready(function(){
     return null;
   }
 
+  var duration;
+  var ctx;
+  var canvas;
+  var playerInstance;
+
   function populateVideo(key,data){
     console.log('populateVideo',data);
     $(".video-name").text(data.title);
-    var playerInstance = jwplayer('myElement');
+    playerInstance = jwplayer('myElement');
 
     playerInstance.setup({
       file: data.src,
@@ -24,7 +29,47 @@ $(document).ready(function(){
       image: data.thumbnailLoc
     });
 
+
+  canvas = document.getElementById("myCanvas");
+  ctx = canvas.getContext("2d");
+  ctx.fillStyle = "#ECECEC";
+  ctx.fillRect(0,0,650,50);
+  // ctx.moveTo(30,0);
+  // ctx.lineTo(30,50);
+  // ctx.stroke();
+
+  // playerInstance.getDuration();
+
+  // playerInstance.on('seek', function(event) {
+  //   console.log(playerInstance.getPosition());
+  // });
+
+  // playerInstance.on('time', function(event) {
+  //   console.log(playerInstance.getPosition());
+  // });
+
+  duration = [];
+  playerInstance.on('time', function(event) {
+    console.log(event.position);
+    duration.push(event.position);
+   //  ctx.moveTo(event.position, 0);
+    // ctx.lineTo(event.position, 50);
+    // ctx.stroke();
+  });
+
+  playerInstance.on('complete', function(event) {
+    console.log(duration);
+
+
+  })
+
+
+
   }
+
+
+
+
 
   var key = $_GET("key");
 
@@ -32,6 +77,34 @@ $(document).ready(function(){
 
 
   conn.getVideo(key,populateVideo);
+
+    var prevLoc = 0; 
+
+  $('#timestamp-func').click(function(){timeStamp()});
+
+  function timeStamp(){
+    var totalTime = playerInstance.getDuration();
+    var currTime = duration[duration.length-1];
+    if (currTime <= totalTime-0.2) {
+      console.log(duration[duration.length-1]);
+      var drawLoc = (650 / totalTime * currTime);
+      ctx.moveTo(drawLoc, 0);
+      ctx.lineTo(drawLoc, 50);
+      ctx.stroke();
+
+      $('<div/>', {
+          class: 'timeline-thumb',
+      }).css({"margin-left": drawLoc-prevLoc-5, "display": "inline-block"}).appendTo('#timeline-marks');
+
+      Materialize.toast('Note added at ' + currTime + '!', 800);
+    }
+    else {
+
+    }
+
+    prevLoc = drawLoc;
+    
+  }
 
 
 });
