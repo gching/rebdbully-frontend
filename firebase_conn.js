@@ -49,16 +49,16 @@ FirebaseConn.prototype.getVideo = function (videoKey,callback){
 
 FirebaseConn.prototype.getVideoKeyByUrl = function(url,callback){
   var key = this.orderByChild("src").equalTo(url).key();
-  callback(key);
+  return key;
 }
 
-FirebaseConn.prototype.getLiveStream = function(url,callback,callback2){
+FirebaseConn.prototype.getLiveStream = function(url,title){
   if (this.dbRefVids.orderByChild("src").equalTo(url).length>0){
-    this.getVideoKeyByUrl(url,callback2);
+    return this.getVideoKeyByUrl(url);
   }
   else{
     if (callback!=null && callback!= 'undefined'){
-      callback(url);
+      return this.setVideo(url,title);
     }
   }
 }
@@ -206,5 +206,7 @@ FirebaseConn.prototype.setVideo = function(title,fileLoc,videoKey){
 
   var newVideoKey = newVideo.key();
   console.log(newVideoKey);
+
+  return newVideoKey;
 }
 
