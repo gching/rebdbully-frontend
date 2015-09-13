@@ -57,9 +57,7 @@ FirebaseConn.prototype.getLiveStream = function(url,title){
     return this.getVideoKeyByUrl(url);
   }
   else{
-    if (callback!=null && callback!= 'undefined'){
       return this.setVideo(url,title);
-    }
   }
 }
 
