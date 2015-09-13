@@ -17,7 +17,7 @@ $(document).ready(function(){
                               '</div>')
 
     $(".gallery").append('<div class="col m4 s12">'+
-                            '<div class="card small">' + 
+                            '<div class="card small ">' + 
                              $a.prop('outerHTML') +
                             '<div class="card-content">' +
                               '<p>Some description about the vid.</p>' +
