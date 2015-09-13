@@ -47,9 +47,14 @@ FirebaseConn.prototype.getVideo = function (videoKey,callback){
   }); 
 };
 
+FirebaseConn.prototype.getVideoKeyByUrl = function(url,callback){
+  var key = this.orderByChild("src").equalTo(url).key();
+  callback(key);
+}
+
 FirebaseConn.prototype.getLiveStream = function(url,callback){
   if (this.dbRefVids.orderByChild("src").equalTo(url).length>0){
-    console.log('exist');
+    this.getVideoKeyByUrl(url,callback);
   }
   else{
     if (callback!=null && callback!= 'undefined'){
