@@ -48,8 +48,13 @@ FirebaseConn.prototype.getVideo = function (videoKey,callback){
 };
 
 FirebaseConn.prototype.getVideoKeyByPassword = function(password){
-  var keyRef = this.orderByChild("password").equalTo(password);
-  return keyRef != null ? keyRef.key() : null;
+
+  if (this.dbRefVids.orderByChild("password").equalTo(password).length == 0 ){
+    alert("Incorrect Password!");
+  }
+  var keyRef = this.dbRefVids.orderByChild("password").equalTo(password).once('child_added',function(data){
+    window.location.replace("player.html?key="+data.key());
+  });
 }
 
 FirebaseConn.prototype.getVideoKeyByUrl = function(url,callback){
@@ -189,7 +194,7 @@ FirebaseConn.prototype.setVideo = function(title,fileLoc,thumbnailLoc, videoKey,
   // By default, assume it's a new video being saved
   videoKey     = videoKey || null;
 
-  password     = password || null;
+  password     = password || '';
 
   console.log(fileLoc,thumbnailLoc);
   // Checks!
