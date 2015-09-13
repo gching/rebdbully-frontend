@@ -67,7 +67,7 @@ FirebaseConn.prototype.getLiveStream = function(url,title,password){
     return this.getVideoKeyByUrl(url);
   }
   else{
-      return this.setVideo(url,title,url+"/1.jpg",null,password);
+      return this.setVideo(title,url,url+"/1.jpg",null,password,"Live Meeting");
   }
 }
 
