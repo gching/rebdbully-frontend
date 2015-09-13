@@ -7,15 +7,16 @@
 */
 
 /**
- *
+ * // Example Data structure in NoSQL
+ * 
  * Videos 
  *    src
  *    title
  *    [List of Documents]
  *        Document
  *            owner
- *            [List of Notes]
- *                Note
+ *            [List of Sections]
+ *                section
  *                    message
  *                    subject
  * 
@@ -44,8 +45,21 @@ FirebaseConn.prototype.getVideo = function (videoKey,callback){
     console.log("getVideo",data.key(),data.val());
     callback(data.key(),data.val());
   }); 
-
 };
+
+FirebaseConn.prototype.getVideoKeyByUrl = function(url,callback){
+  var key = this.orderByChild("src").equalTo(url).key();
+  return key;
+}
+
+FirebaseConn.prototype.getLiveStream = function(url,title){
+  if (this.dbRefVids.orderByChild("src").equalTo(url).length>0){
+    return this.getVideoKeyByUrl(url);
+  }
+  else{
+      return this.setVideo(url,title);
+  }
+}
 
 // Fetches all Videos
 // Requires a callback function
@@ -60,7 +74,7 @@ FirebaseConn.prototype.getVideos = function(callback){
 // Requires a the key value representing the video, as well as the key name for the document
 // Requires a callback
 FirebaseConn.prototype.getDocument = function(videoKey,documentKey,callback){
-  this.dbRefVids.orderByKey().equalTo(videoKey).child(documentKey).on("child_added",function(data){
+  this.dbRefVids.orderByKey().equalTo(videoKey).child("docs").child(documentKey).on("child_added",function(data){
     console.log(data.key(),data.val());
     callback(data.key(),data.val());
   });
@@ -70,13 +84,21 @@ FirebaseConn.prototype.getDocument = function(videoKey,documentKey,callback){
 // Requires the key value for the video
 // Requires a callback
 FirebaseConn.prototype.getDocuments = function(videoKey,callback){
-  this.dbRefVids.orderByKey().equalTo(videoKey).on('child_added',function(data){
-    console.log("getDocuments",data.key(),data.val());
-    callback(data.key(),data.val());
-  });
+  if (this.dbRefVids.child(videoKey).child("docs").length>0){
+    this.dbRefVids.orderByKey().equalTo(videoKey).child("docs").on('child_added',function(data){
+      console.log("getDocuments",data.key(),data.val());
+      callback(data.key(),data.val());
+    });
+  }
+  else{
+    console.log("No children elements");
+    callback(null);
+  }
+
+
 }
 
-// Retrieve a specific document by ID
+// Retrieve a specific section for a specific document by ID
 // Requires a the key value representing the video, as well as the key name for the document
 // Requires a callback
 FirebaseConn.prototype.getSection = function(videoKey,documentKey,sectionKey,callback){
@@ -88,6 +110,7 @@ FirebaseConn.prototype.getSection = function(videoKey,documentKey,sectionKey,cal
   });
 }
 
+// Retrieves all sections for a specific video and a specific document
 FirebaseConn.prototype.getSections = function(videoKey,documentKey,callback){
   var videoRef = this.dbRefVids.child(videoKey);
   var docRef = videoRef.child("docs").child(documentKey);
@@ -103,6 +126,9 @@ FirebaseConn.prototype.getSections = function(videoKey,documentKey,callback){
  * -------------------------------
  */
 
+/**
+ * saves a section underneath a document, which is underneath a video
+ */
 FirebaseConn.prototype.setSection = function(note,title,videoKey,documentKey){
   // Create a new Document
   var videoRef = this.dbRefVids.child(videoKey);
@@ -118,6 +144,7 @@ FirebaseConn.prototype.setSection = function(note,title,videoKey,documentKey){
 }
 
 // Create new document, or update
+// Stores it under a documents list under a video
 FirebaseConn.prototype.setDocument = function(owner,videoKey,documentKey){
   if (videoKey === null || videoKey === ''){
     throw "ERROR: Cannot have undefined video key";
@@ -149,6 +176,7 @@ FirebaseConn.prototype.setDocument = function(owner,videoKey,documentKey){
   var newDocumentKey = newDocument.key();
 
   console.log(newDocumentKey);
+  return newDocumentKey;
 
 }
 
@@ -156,7 +184,7 @@ FirebaseConn.prototype.setDocument = function(owner,videoKey,documentKey){
 // Create new Video, or update
 FirebaseConn.prototype.setVideo = function(title,fileLoc,videoKey){
   // By default, assume it's a new video being saved
-  videoKey = videoKey || null;
+  videoKey     = videoKey || null;
 
   // Checks!
 
@@ -173,9 +201,12 @@ FirebaseConn.prototype.setVideo = function(title,fileLoc,videoKey){
 
   var newVideo = this.dbRefVids.push({
     title: title,
-    src: fileLoc
+    src: fileLoc,
   });
 
   var newVideoKey = newVideo.key();
+  console.log(newVideoKey);
+
+  return newVideoKey;
 }
 
