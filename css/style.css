@@ -54,6 +54,9 @@ min-height: 1px;
 .custom-card {
 	padding-bottom: 0px;
 }
+.custom-card .card{
+  background-color: rgba(189, 189, 189, 0.13);
+}
 .custom-card .card-title {
 	font-weight:400;
 	font-size: 1.1em;
