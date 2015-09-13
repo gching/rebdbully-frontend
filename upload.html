@@ -67,6 +67,8 @@
         </form> -->
         
         <input type="file" id="file-chooser" /> 
+        <input type="file" id="thumbnail" /> 
+
         <a href="#" id="upload-button" class="waves-effect waves-grey grey darken-3 btn"><i class="material-icons left">open_in_browser</i>Upload</a>
         <div id="results"></div>
         </div>
@@ -120,43 +122,67 @@
 
   
 
-  <script>
-    $(document).ready(function(){
+ <script type="text/javascript">
+ AWS.config = {
+  accessKeyId: "AKIAIXGABMVS5G5PKGZA",
+  secretAccessKey: "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",
+  sslEnabled: false
+ }
+   var bucket = new AWS.S3({params: {Bucket: 'mhacksvidnoted'}});
 
-      AWS.config = {
-      accessKeyId: "AKIAIXGABMVS5G5PKGZA",
-      secretAccessKey: "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",
-      sslEnabled: false
+   var fileChooser = document.getElementById('file-chooser');
+   var thumbnail   = document.getElementById('thumbnail');
+   var button      = document.getElementById('upload-button');
+   var results     = document.getElementById('results');
+   button.addEventListener('click', function() {
+     var file = fileChooser.files[0];
+     var thumbnailFile = thumbnail.files[0];
+     console.info(thumbnailFile);
+     if (file) {
+       results.innerHTML = '';
+       var paramsThumbnail = {
+          Key: thumbnailFile.name,
+          ContentType: thumbnailFile.type,
+          Body: thumbnailFile,
+          ACL: "public-read"
+       };
+
+       var paramsVideo = {
+        Key: file.name, 
+        ContentType: file.type, 
+        Body: file,
+        ACL: "public-read"
+      };
+
+      var awsImageLoc = null;
+       bucket.upload(paramsVideo, function (err, data) {
+         results.innerHTML = err ? 'ERROR!' : 'UPLOADED.';
+
+         if (err){
+          console.error(err);
+          return;
+         }
+         console.log(data.Location,data.Key);
+         var conn = new FirebaseConn();
+         conn.setVideo("Video Title",data.Location,awsImageLoc,data.Key);
+         window.location.replace = "browse.html";
+       });
+
+       bucket.upload(paramsThumbnail, function (err, data) {
+         results.innerHTML = err ? 'ERROR THUMBNAIL!' : 'UPLOADED Thumbnail.';
+
+         if (err){
+          console.error(err);
+          return;
+         }
+         awsImageLoc = data.Location;
+         return;
+       });
+     } else {
+       results.innerHTML = 'Nothing to upload.';
      }
-     var bucket = new AWS.S3({params: {Bucket: 'mhacksvidnoted'}});
-
-     var fileChooser = document.getElementById('file-chooser');
-     var button = document.getElementById('upload-button');
-     var results = document.getElementById('results');
-     button.addEventListener('click', function() {
-       var file = fileChooser.files[0];
-       if (file) {
-         results.innerHTML = '';
-
-         var params = {Key: file.name, ContentType: file.type, Body: file};
-         bucket.upload(params, function (err, data) {
-         console.log(err);
-          results.innerHTML = err ? 'ERROR!' : 'UPLOADED.';
-          if (err == null) {
-            window.location.replace("browse.html");
-          }
-         });
-       } else {
-         results.innerHTML = 'Nothing to upload.';
-       }
-     }, false);
-
-
-
-  });
-
-
-  </script>
+   }, false);
+ </script>
 
   </body>
 </html>
