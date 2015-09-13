@@ -8,8 +8,8 @@
 
 /**
  * // Example Data structure in NoSQL
- * 
- * Videos 
+ *
+ * Videos
  *    src
  *    title
  *    [List of Documents]
@@ -19,7 +19,7 @@
  *                section
  *                    message
  *                    subject
- * 
+ *
  */
 
 
@@ -44,7 +44,7 @@ FirebaseConn.prototype.getVideo = function (videoKey,callback){
   this.dbRefVids.orderByKey().equalTo(videoKey).limitToFirst(1).on('child_added',function(data){
     console.log("getVideo",data.key(),data.val());
     callback(data.key(),data.val());
-  }); 
+  });
 };
 
 FirebaseConn.prototype.getVideoKeyByUrl = function(url,callback){
@@ -129,18 +129,15 @@ FirebaseConn.prototype.getSections = function(videoKey,documentKey,callback){
 /**
  * saves a section underneath a document, which is underneath a video
  */
-FirebaseConn.prototype.setSection = function(note,title,videoKey,documentKey){
+FirebaseConn.prototype.setSection = function(timestamp, videoKey,documentKey){
   // Create a new Document
   var videoRef = this.dbRefVids.child(videoKey);
   var docRef = videoRef.child("docs").child(documentKey);
   var section = docRef.child("sections").push({
-    note: note,
-    title: title
+    timestamp: timestamp
   });
-
-  var sectionKey = section.key();
-
-  console.log(sectionKey);
+  // Return the section
+  return section;
 }
 
 // Create new document, or update
@@ -209,4 +206,3 @@ FirebaseConn.prototype.setVideo = function(title,fileLoc,videoKey){
 
   return newVideoKey;
 }
-
