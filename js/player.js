@@ -83,24 +83,115 @@ $(document).ready(function(){
   $('#timestamp-func').click(function(){timeStamp()});
 
   /********************* Document stuff ************************/
+  var firepad;
+  // Create a codeMirror editor on default
+  var codeMirror = createCodeMirrorEditor();
+
   var videoKey = key;
   var docKey;
+
+  var fcon = conn;
+  console.log("Heree in")
   fcon.getDocuments(videoKey, function(key, value) {
+
+    console.log("fcon.getDocuments")
     docKey = key;
+    console.log(docKey)
+
     if (docKey === null) {
       // Case when empty document
+      // Create a document an a default section
+      console.log('before setDocument')
       docKey = fcon.setDocument('random-owner', videoKey);
-    } else {
-
-      //  Get the sections for each of them and show them?
-      fcon.getSections(videoKey, docKey, function(section_key, section_data){
-        console.log('#getSections callback');
-        console.log(section_key, section_data);
-      });
+      changeFirePad(fcon, videoKey, docKey, codeMirror);
     }
-    firepad = createFirePad(fcon, videoKey, docKey);
-    docReady = true;
+    //  Each time a section updates, add or check the time on the bar
+    fcon.getSections(videoKey, docKey, function(section_key, section_data){
+      console.log('#getSections callback');
+      console.log(section_key, section_data);
+    });
+
   });
+  function createCodeMirrorEditor(){
+    // Creates a code mirror editor on the firepad-container element
+    var codeMirror = CodeMirror(document.getElementById('firepad-container'), { lineWrapping: true });
+    return codeMirror;
+  }
+  function changeFirePad(fcon, videoKey, docKey, codeMirror, sectionRef ) {
+    // Changes the Firepad ontop of the passed in CodeMirror editor with the
+    // given credentials.
+
+    if (sectionRef === undefined){
+      console.log('before setSection')
+      sectionRef = fcon.setSection(0, videoKey, docKey);
+      console.log('after setSection')
+    }
+
+    // Use this section reference to setup a new firepad
+    var firepad = Firepad.fromCodeMirror(sectionRef, codeMirror, {
+      richTextToolbar: true,
+      richTextShortcuts: true
+    });
+
+    console.log(firepad);
+
+    firepad.registerEntity('header-timestamp', {
+      /**
+      Renders the element given the info with listener on click.
+      */
+      render: function(info, entityHandler) {
+        console.log('render');
+        console.log(entityHandler);
+
+        // Create span with class name.
+        var headerWithTimestamp = document.createElement('span');
+        headerWithTimestamp.className = 'header-timestamp';
+
+
+        if (info.timestamp){
+          headerWithTimestamp.timestamp = info.timestamp;
+        }
+
+        headerWithTimestamp.textContent = info.textContent;
+        headerWithTimestamp.addEventListener('click', function(){
+          console.log('Clicked with timestamp ' + info.timestamp);
+          // Jumping to part in video
+          playerInstance.seek(info.timestamp);
+        });
+
+        return headerWithTimestamp;
+      }.bind(this),
+
+      /**
+      Sets default info with timestamp and the actual text inside from the
+      actual element inserted.
+      */
+      fromElement: function(element){
+        // Sets a timestamp or a provided with from the element from the
+        // provided attribute. As well, gets the text in between the tag and
+        // provides it in info.
+        // TODO  Set the timestamp attribute
+        var timestampEle = element.attributes.timestamp;
+        console.log(timestampEle);
+        var info = {timestamp: timestampEle.value, textContent: element.textContent};
+        return info;
+      },
+      /**
+      On update from firebase, we update it on the element.
+      */
+      update: function(info, element) {
+        // TODO  Change the text if changed.
+        if (info.timestamp){
+          element.timestamp = info.timestamp;
+        } else {
+          element.timestamp = '0:00';
+        }
+      }
+    });
+
+    return firepad;
+  }
+
 
 
 
