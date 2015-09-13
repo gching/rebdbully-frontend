@@ -30,6 +30,9 @@
 	playerInstance.on('time', function(event) {
 	  // console.log(event.position);
 	  duration.push(event.position);
+	  ctx.moveTo(event.position, 0);
+		ctx.lineTo(event.position, 50);
+		ctx.stroke();
 	});
 
 	playerInstance.on('complete', function(event) {
