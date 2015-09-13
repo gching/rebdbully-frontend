@@ -84,8 +84,6 @@ $(document).ready(function(){
 
   /********************* Document stuff ************************/
   var firepad;
-  // Create a codeMirror editor on default
-  var codeMirror = createCodeMirrorEditor();
 
   var videoKey = key;
   var docKey;
@@ -103,7 +101,7 @@ $(document).ready(function(){
       // Create a document an a default section
       console.log('before setDocument')
       docKey = fcon.setDocument('random-owner', videoKey);
-      changeFirePad(fcon, videoKey, docKey, codeMirror);
+      addFirepadSection(fcon, videoKey, docKey);
     }
     //  Each time a section updates, add or check the time on the bar
     fcon.getSections(videoKey, docKey, function(section_key, section_data){
@@ -112,20 +110,43 @@ $(document).ready(function(){
     });
 
   });
-  function createCodeMirrorEditor(){
+  function addSectionEditorAndHeader(sectionReference){
+    // Given the uniqClazz add in a new Firepad container to the
+    // firepad-containers
+    // TODO - Add Header
+    var sectionContainer = document.createElement('div');
+    sectionContainer.className = 'section-' + sectionReference.key() + ' section-container';
+
+    var padContainer = document.createElement('div');
+    padContainer.className = 'firepad-container';
+
+    sectionContainer.appendChild(padContainer);
+
     // Creates a code mirror editor on the firepad-container element
-    var codeMirror = CodeMirror(document.getElementById('firepad-container'), { lineWrapping: true });
+    var codeMirror = CodeMirror(padContainer, { lineWrapping: true });
+
+    // Append and return
+    $('.section-containers').append(sectionContainer);
+
     return codeMirror;
   }
-  function changeFirePad(fcon, videoKey, docKey, codeMirror, sectionRef ) {
-    // Changes the Firepad ontop of the passed in CodeMirror editor with the
-    // given credentials.
+  function addFirepadSection(fcon, videoKey, docKey, sectionRef ) {
+    // Used method to add in a new section with firepad and the section header.
 
+    //  Initial default section reference generation
+    var codeMirror;
     if (sectionRef === undefined){
       console.log('before setSection')
       sectionRef = fcon.setSection(0, videoKey, docKey);
+      codeMirror = addSectionEditorAndHeader(sectionRef);
       console.log('after setSection')
+    } else if (!$.find('section-' + sectionRef.key())) {
+       // don't do anything if the section has already been added.
+       return;
     }
+
+
+
 
     // Use this section reference to setup a new firepad
     var firepad = Firepad.fromCodeMirror(sectionRef, codeMirror, {
