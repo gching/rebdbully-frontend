@@ -71,10 +71,17 @@ FirebaseConn.prototype.getDocument = function(videoKey,documentKey,callback){
 // Requires the key value for the video
 // Requires a callback
 FirebaseConn.prototype.getDocuments = function(videoKey,callback){
-  this.dbRefVids.orderByKey().equalTo(videoKey).child("docs").on('child_added',function(data){
-    console.log("getDocuments",data.key(),data.val());
-    callback(data.key(),data.val());
-  });
+  if (this.dbRefVids.child(videoKey).child("docs").length>0){
+    this.dbRefVids.orderByKey().equalTo(videoKey).child("docs").on('child_added',function(data){
+      console.log("getDocuments",data.key(),data.val());
+      callback(data.key(),data.val());
+    });
+  }
+  else{
+    console.log("No children elements");
+  }
+
+
 }
 
 // Retrieve a specific section for a specific document by ID
