@@ -12,7 +12,7 @@ $(document).ready(function(){
     $a.data("src-vid",data.src);
     $a.attr("id",key);
     $a.append('<div class="card-image">' + 
-                              '<img src="http://placehold.it/300x300">'+
+                              '<img src="'+data.thumbnailLoc+'">'+
                               '<span class="card-title">'+data.title+'</span>'+
                               '</div>')
 

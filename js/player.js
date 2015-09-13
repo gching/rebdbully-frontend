@@ -12,21 +12,22 @@ $(document).ready(function(){
   }
 
   function populateVideo(data){
-    console.log(data);  
+    $(".video-name").text(data.title);
+
     var $source = $("<source>");
     $source.attr("type","video/mp4");
     $source.attr("src",data.src);
     $("video").append($source);
 
     $source = $("<source>");
-        $source.attr("type","video/webm");
-        $source.attr("src",data.src);
-        $("video").append($source);
+    $source.attr("type","video/webm");
+    $source.attr("src",data.src);
+    $("video").append($source);
 
     $source = $("<source>");
-        $source.attr("type","video/ogg");
-        $source.attr("src",data.src);
-        $("video").append($source);
+    $source.attr("type","video/ogg");
+    $source.attr("src",data.src);
+    $("video").append($source);
 
   }
 
