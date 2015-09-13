@@ -53,27 +53,27 @@
 
         <h4>Upload a Presentation</h4>
         <div class="col s6">
-        <form class action="#">
-          <div class="file-field input-field">
-            <input class="file-path validate" type="text"/>
-            <div class="btn">
-              <span>Video</span>
-              <input type="file" id="file-chooser" accept="video/*"/> 
+          <form class action="#">
+            <div class="file-field input-field">
+              <input class="file-path validate" type="text"/>
+              <div class="btn">
+                <span>Video</span>
+                <input type="file" id="file-chooser" accept="video/*"/> 
+              </div>
             </div>
-          </div>
-          <br/>
-        </form>
+            <br/>
+          </form>
         </div>
         <div class="col s6">
-        <form class action="#">
-          <div class="file-field input-field">
-            <input class="file-path validate" type="text"/>
-            <div class="btn">
-              <span>Thumbnail</span>
-              <input type="file" id="thumbnail" accept="image/*"/> 
+          <form class action="#">
+            <div class="file-field input-field">
+              <input class="file-path validate" type="text"/>
+              <div class="btn">
+                <span>Thumbnail</span>
+                <input type="file" id="thumbnail" accept="image/*"/> 
+              </div>
             </div>
-          </div>
-        </form>
+          </form>
         </div>
         
         <div class="col s12" style="padding-top: 40px;">
@@ -85,51 +85,17 @@
           <p>Thumbnail Preview</p>
           <img src="" class="preview-image" style="display:none;" />
         </div>
+        <div class="col s12">
+          <label>Choose a meeting password.</label>
+          <input type="text" name="meeting-password" placeholder="Meeting Password"/>
+          <p class="share-link">Share this link to invite others to watch this meeting: <a href="#" class="link"></a></p>
+        </div>
 
 
       </div>
 
     </div>
   </div>
-
-
-<!--   <footer class="page-footer orange">
-    <div class="container">
-      <div class="row">
-        <div class="col l6 s12">
-          <h5 class="white-text">Company Bio</h5>
-          <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
-
-
-        </div>
-        <div class="col l3 s12">
-          <h5 class="white-text">Settings</h5>
-          <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
-          </ul>
-        </div>
-        <div class="col l3 s12">
-          <h5 class="white-text">Connect</h5>
-          <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="footer-copyright">
-      <div class="container">
-      Made by <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
-      </div>
-    </div>
-  </footer>
- -->
-
 
   
 
@@ -186,8 +152,11 @@
          }
          console.log(data.Location,data.Key);
          var conn = new FirebaseConn();
-         conn.setVideo("Video Title",data.Location,awsImageLoc,data.Key);
+         var password = $("input[name='meeting-password']").val();
+         conn.setVideo("Video Title",data.Location,awsImageLoc,data.Key,password);
 
+         $(".share-link a").text(data.Location)
+                              .attr("href",data.Location);
          // window.location.replace = "browse.html";
        });
 
