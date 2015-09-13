@@ -8,8 +8,8 @@
 
 /**
  * // Example Data structure in NoSQL
- *
- * Videos
+ * 
+ * Videos 
  *    src
  *    title
  *    [List of Documents]
@@ -19,7 +19,7 @@
  *                section
  *                    message
  *                    subject
- *
+ * 
  */
 
 
@@ -44,8 +44,18 @@ FirebaseConn.prototype.getVideo = function (videoKey,callback){
   this.dbRefVids.orderByKey().equalTo(videoKey).limitToFirst(1).on('child_added',function(data){
     console.log("getVideo",data.key(),data.val());
     callback(data.key(),data.val());
-  });
+  }); 
 };
+
+FirebaseConn.prototype.getVideoKeyByPassword = function(password){
+
+  if (this.dbRefVids.orderByChild("password").equalTo(password).length == 0 ){
+    alert("Incorrect Password!");
+  }
+  var keyRef = this.dbRefVids.orderByChild("password").equalTo(password).once('child_added',function(data){
+    window.location.replace("player.html?key="+data.key());
+  });
+}
 
 FirebaseConn.prototype.getVideoKeyByUrl = function(url,callback){
   var key = this.orderByChild("src").equalTo(url).key();
@@ -53,7 +63,6 @@ FirebaseConn.prototype.getVideoKeyByUrl = function(url,callback){
 }
 
 FirebaseConn.prototype.getLiveStream = function(url,title,password){
-  password = password || '';
   if (this.dbRefVids.orderByChild("src").equalTo(url).length>0){
     return this.getVideoKeyByUrl(url);
   }
@@ -93,7 +102,6 @@ FirebaseConn.prototype.getDocuments = function(videoKey,callback){
   }
   else{
     console.log("No children elements");
-    callback(null);
   }
 
 
@@ -130,15 +138,18 @@ FirebaseConn.prototype.getSections = function(videoKey,documentKey,callback){
 /**
  * saves a section underneath a document, which is underneath a video
  */
-FirebaseConn.prototype.setSection = function(timestamp, videoKey,documentKey){
+FirebaseConn.prototype.setSection = function(note,title,videoKey,documentKey){
   // Create a new Document
   var videoRef = this.dbRefVids.child(videoKey);
   var docRef = videoRef.child("docs").child(documentKey);
   var section = docRef.child("sections").push({
-    timestamp: timestamp
+    note: note,
+    title: title
   });
-  // Return the section
-  return section;
+
+  var sectionKey = section.key();
+
+  console.log(sectionKey);
 }
 
 // Create new document, or update
@@ -174,16 +185,20 @@ FirebaseConn.prototype.setDocument = function(owner,videoKey,documentKey){
   var newDocumentKey = newDocument.key();
 
   console.log(newDocumentKey);
-  return newDocumentKey;
 
 }
 
 
 // Create new Video, or update
-FirebaseConn.prototype.setVideo = function(title,fileLoc,videoKey){
+FirebaseConn.prototype.setVideo = function(title,fileLoc,thumbnailLoc, videoKey,password,description){
   // By default, assume it's a new video being saved
   videoKey     = videoKey || null;
 
+  password     = password || '';
+
+  description  = description || '';
+
+  console.log(fileLoc,thumbnailLoc);
   // Checks!
 
   // TODO: Find parameters and do checks
@@ -200,6 +215,9 @@ FirebaseConn.prototype.setVideo = function(title,fileLoc,videoKey){
   var newVideo = this.dbRefVids.push({
     title: title,
     src: fileLoc,
+    thumbnailLoc: thumbnailLoc,
+    password: password,
+    description: description
   });
 
   var newVideoKey = newVideo.key();
@@ -207,3 +225,4 @@ FirebaseConn.prototype.setVideo = function(title,fileLoc,videoKey){
 
   return newVideoKey;
 }
+

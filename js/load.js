@@ -13,13 +13,14 @@ $(document).ready(function(){
     $a.attr("id",key);
     $a.append('<div class="card-image">' + 
                               '<img src="'+data.thumbnailLoc+'">'+
-                              '<span class="card-title">'+data.title+'</span>'+
                               '</div>')
 
     $(".gallery").append('<div class="col m4 s12 custom-card">'+
                             '<div class="card small ">' + 
                              $a.prop('outerHTML') +
                             '<div class="card-content">' +
+                            '<strong class="card-title">'+data.title+'</strong>'+
+
                               '<p>'+(data.description ? data.description : 'Video Description Here')+'</p>' +
                             '</div></div></div>');
   }
