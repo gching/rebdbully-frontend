@@ -57,7 +57,7 @@ FirebaseConn.prototype.getLiveStream = function(url,title){
     return this.getVideoKeyByUrl(url);
   }
   else{
-      return this.setVideo(url,title);
+      return this.setVideo(url,title,url+"/1.jpg");
   }
 }
 
@@ -180,7 +180,7 @@ FirebaseConn.prototype.setDocument = function(owner,videoKey,documentKey){
 
 
 // Create new Video, or update
-FirebaseConn.prototype.setVideo = function(title,fileLoc,videoKey){
+FirebaseConn.prototype.setVideo = function(title,fileLoc,thumbnailLoc, videoKey){
   // By default, assume it's a new video being saved
   videoKey     = videoKey || null;
 
@@ -200,6 +200,7 @@ FirebaseConn.prototype.setVideo = function(title,fileLoc,videoKey){
   var newVideo = this.dbRefVids.push({
     title: title,
     src: fileLoc,
+    thumbnailLoc: thumbnailLoc
   });
 
   var newVideoKey = newVideo.key();
