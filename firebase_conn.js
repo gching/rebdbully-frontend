@@ -52,7 +52,9 @@ FirebaseConn.prototype.getLiveStream = function(url,callback){
     console.log('exist');
   }
   else{
-    console.log('doesnt exist');
+    if (callback!=null && callback!= 'undefined'){
+      callback(url);
+    }
   }
 }
 
