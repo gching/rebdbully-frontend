@@ -47,6 +47,11 @@ FirebaseConn.prototype.getVideo = function (videoKey,callback){
   }); 
 };
 
+FirebaseConn.prototype.getVideoKeyByPassword = function(password){
+  var keyRef = this.orderByChild("password").equalTo(password);
+  return keyRef != null ? keyRef.key() : null;
+}
+
 FirebaseConn.prototype.getVideoKeyByUrl = function(url,callback){
   var key = this.orderByChild("src").equalTo(url).key();
   return key;
@@ -57,7 +62,7 @@ FirebaseConn.prototype.getLiveStream = function(url,title){
     return this.getVideoKeyByUrl(url);
   }
   else{
-      return this.setVideo(url,title,url+"/1.jpg");
+      return this.setVideo(url,title,url+"/1.jpg",null,Math.random(0,5));
   }
 }
 
@@ -180,9 +185,11 @@ FirebaseConn.prototype.setDocument = function(owner,videoKey,documentKey){
 
 
 // Create new Video, or update
-FirebaseConn.prototype.setVideo = function(title,fileLoc,thumbnailLoc, videoKey){
+FirebaseConn.prototype.setVideo = function(title,fileLoc,thumbnailLoc, videoKey,password){
   // By default, assume it's a new video being saved
   videoKey     = videoKey || null;
+
+  password     = password || null;
 
   console.log(fileLoc,thumbnailLoc);
   // Checks!
@@ -201,7 +208,8 @@ FirebaseConn.prototype.setVideo = function(title,fileLoc,thumbnailLoc, videoKey)
   var newVideo = this.dbRefVids.push({
     title: title,
     src: fileLoc,
-    thumbnailLoc: thumbnailLoc
+    thumbnailLoc: thumbnailLoc,
+    password: password
   });
 
   var newVideoKey = newVideo.key();
