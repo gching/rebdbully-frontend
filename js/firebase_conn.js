@@ -52,7 +52,8 @@ FirebaseConn.prototype.getVideoKeyByUrl = function(url,callback){
   return key;
 }
 
-FirebaseConn.prototype.getLiveStream = function(url,title){
+FirebaseConn.prototype.getLiveStream = function(url,title,password){
+  password = password || '';
   if (this.dbRefVids.orderByChild("src").equalTo(url).length>0){
     return this.getVideoKeyByUrl(url);
   }
