@@ -1,26 +1,84 @@
 var playerInstance = jwplayer('myElement');
 
-var url = "http://www.youtube.com/watch?v=u4rizXqsmdc";
+// var url = "http://www.youtube.com/watch?v=u4rizXqsmdc";
 
 playerInstance.setup({
-  file: "https://www.youtube.com/watch?v=O622EB20bno",
-  width: 1000,
-  height: 600
+  file: "https://www.youtube.com/watch?v=zpqKpWNCdJ0",
+  width: 640,
+  height: 360,
+  title: "temp title",
 });
+
+  var duration;
+  var ctx;
+  var canvas;
+  var playerInstance;
+  var vidStart;
+  var initialTime = 0;
+
+  canvas = document.getElementById("myCanvas");
+  ctx = canvas.getContext("2d");
+  ctx.fillStyle = "#ECECEC";
+  ctx.fillRect(0,0,650,50);
+
+
+  duration = [];
+  playerInstance.on('time', function(event) {
+    console.log(event.position);
+    duration.push(event.position);
+    initialTime = duration[0];
+
+  });
+
+  playerInstance.on('complete', function(event) {
+    console.log(duration);
+
+
+  });
+
+  var prevLoc = 0;
+
+    $('#timestamp-func').click(function(){timeStamp()});
+
+
+  function timeStamp(){
+    console.log(initialTime);
+    var totalTime = playerInstance.getDuration();
+    var currTime = duration[duration.length-1];
+    if (currTime <= totalTime-0.2) {
+      console.log(currTime);
+      var drawLoc = (currTime - initialTime)*5;
+      ctx.moveTo(drawLoc, 0);
+      ctx.lineTo(drawLoc, 50);
+      ctx.stroke();
+
+      $('<div/>', {
+          class: 'timeline-thumb',
+      }).css({"margin-left": drawLoc-prevLoc-5, "display": "inline-block"}).appendTo('#timeline-marks');
+
+      Materialize.toast('Note added at ' + (currTime/60).toFixed(2) + ' minutes!', 800);
+    }
+    else {
+
+    }
+
+    prevLoc = drawLoc;
+
+  }
 
 var docKey = null;
 var docReady = false;
 var annotatedNotes = [];
 
-var duration = [];
-playerInstance.on('time', function(event) {
-  // console.log(event.position);
-  duration.push(event.position);
-});
+// var duration = [];
+// playerInstance.on('time', function(event) {
+//   // console.log(event.position);
+//   duration.push(event.position);
+// });
 
-playerInstance.on('complete', function(event) {
-  console.log(duration);
-});
+// playerInstance.on('complete', function(event) {
+//   console.log(duration);
+// });
 
 //Set up firebase connection
 var fcon = new FirebaseConn();

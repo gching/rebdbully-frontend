@@ -261,7 +261,7 @@ $(document).ready(function(){
           class: 'timeline-thumb',
       }).css({"margin-left": drawLoc-prevLoc-5, "display": "inline-block"}).appendTo('#timeline-marks');
 
-      Materialize.toast('Note added at ' + currTime + '!', 800);
+      Materialize.toast('Note added at ' + (currTime/60).toFixed(2) + ' minutes!', 800);
     }
     else {
 
