@@ -97,18 +97,18 @@ FirebaseConn.prototype.getDocument = function(videoKey,documentKey,callback){
 // Requires the key value for the video
 // Requires a callback
 FirebaseConn.prototype.getDocuments = function(videoKey,callback){
-  if (this.dbRefVids.child(videoKey).child("docs").length>0){
-    this.dbRefVids.orderByKey().equalTo(videoKey).child("docs").on('child_added',function(data){
-      console.log("getDocuments",data.key(),data.val());
-      callback(data.key(),data.val());
-    });
-  }
-  else{
-    console.log("No children elements");
-    callback(null)
-  }
+  this.dbRefVids.child(videoKey).child("docs").once('value', function(data){
+    console.log("getDocuments",data.key(),data.val());
+    callback(data.key(),data.val());
+  })
+/*  this.dbRefVids.equalTo(videoKey).child("docs").once('child_added',function(data){
+    console.log("getDocuments",data.key(),data.val());
+    callback(data.key(),data.val());
+  });*/
+}
 
-
+FirebaseConn.prototype.getDocumentSync = function(videoKey){
+  return this.dbRefVids.child(videoKey).child("docs").val();
 }
 
 // Retrieve a specific section for a specific document by ID
@@ -123,13 +123,20 @@ FirebaseConn.prototype.getSection = function(videoKey,documentKey,sectionKey,cal
   });
 }
 
+FirebaseConn.prototype.getSectionRef = function(videoKey, documentKey, sectionKey){
+  var videoRef = this.dbRefVids.child(videoKey);
+  var docRef = videoRef.child("docs").child(documentKey);
+  var section = docRef.child("sections").child(sectionKey)
+  return section;
+};
+
 // Retrieves all sections for a specific video and a specific document
 FirebaseConn.prototype.getSections = function(videoKey,documentKey,callback){
   var videoRef = this.dbRefVids.child(videoKey);
   var docRef = videoRef.child("docs").child(documentKey);
-  var sections = docRef.child("sections").on("child_added",function(data){
+  docRef.child("sections").on("child_added",function(data){
     console.log("getSections",data.key(),data.val());
-    callback(data.key(),data.val());
+    callback(data.key(), data.val());
   });
 }
 
@@ -142,14 +149,15 @@ FirebaseConn.prototype.getSections = function(videoKey,documentKey,callback){
 /**
  * saves a section underneath a document, which is underneath a video
  */
-FirebaseConn.prototype.setSection = function(timestamp, videoKey, documentKey){
+FirebaseConn.prototype.setSection = function(params, videoKey, documentKey){
   // Create a new Document
   console.log('setSection')
-  console.log(timestamp, videoKey, documentKey)
+  console.log(params.timestamp, videoKey, documentKey)
   var videoRef = this.dbRefVids.child(videoKey);
   var docRef = videoRef.child("docs").child(documentKey);
   var section = docRef.child("sections").push({
-    timestamp: timestamp
+    timestamp: params.timestamp,
+    title: params.header
   });
 
   var sectionKey = section.key();

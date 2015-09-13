@@ -89,37 +89,59 @@ $(document).ready(function(){
   var docKey;
 
   var fcon = conn;
-  console.log("Heree in")
+
   fcon.getDocuments(videoKey, function(key, value) {
+    var documents = value;
 
-    console.log("fcon.getDocuments")
-    docKey = key;
-    console.log(docKey)
-
-    if (docKey === null) {
-      // Case when empty document
+    if (documents === null) {
+      // Case when no documents
       // Create a document an a default section
+      console.log('NUll so creating document')
       console.log('before setDocument')
       docKey = fcon.setDocument('random-owner', videoKey);
       addFirepadSection(fcon, videoKey, docKey);
+    } else if (Object.keys(documents).length > 0){
+      console.log("There are documents and hopefully only 1")
+      docKey = Object.keys(documents)[0];
     }
+
     //  Each time a section updates, add or check the time on the bar
-    fcon.getSections(videoKey, docKey, function(section_key, section_data){
-      console.log('#getSections callback');
-      console.log(section_key, section_data);
+    console.log(videoKey)
+    console.log(docKey)
+    fcon.getSections(videoKey, docKey, function(section_key, section_val){
+      console.log('------------#getSections callback -------------');
+      console.log(section_key, section_val);
+
+      // Get the section reference
+      var sectionRef = fcon.getSectionRef(videoKey, docKey, section_key);
+
+
+      // Call addFirepadSection and if its there it won't add it
+      addFirepadSection(fcon, videoKey, docKey, sectionRef, section_val);
     });
 
   });
-  function addSectionEditorAndHeader(sectionReference){
+  function addSectionEditorAndHeader(sectionReference, sectionParams){
     // Given the uniqClazz add in a new Firepad container to the
     // firepad-containers
     // TODO - Add Header
     var sectionContainer = document.createElement('div');
     sectionContainer.className = 'section-' + sectionReference.key() + ' section-container';
 
+    // Make header
+    console.log("HEREERER")
+    console.log(sectionReference)
+    var header = document.createElement('h3');
+    header.addEventListener('click', function(){
+      console.log('Clicked with timestamp ' + sectionParams.timestamp);
+      playerInstance.seek(sectionParams.timestamp);
+    });
+    header.textContent = sectionParams.title;
+
     var padContainer = document.createElement('div');
     padContainer.className = 'firepad-container';
 
+    sectionContainer.appendChild(header);
     sectionContainer.appendChild(padContainer);
 
     // Creates a code mirror editor on the firepad-container element
@@ -130,23 +152,26 @@ $(document).ready(function(){
 
     return codeMirror;
   }
-  function addFirepadSection(fcon, videoKey, docKey, sectionRef ) {
+  function addFirepadSection(fcon, videoKey, docKey, sectionRef, sectionParams ) {
     // Used method to add in a new section with firepad and the section header.
 
     //  Initial default section reference generation
-    var codeMirror;
+    console.log(sectionRef)
     if (sectionRef === undefined){
-      console.log('before setSection')
-      sectionRef = fcon.setSection(0, videoKey, docKey);
-      codeMirror = addSectionEditorAndHeader(sectionRef);
-      console.log('after setSection')
-    } else if (!$.find('section-' + sectionRef.key())) {
+      sectionParams = sectionParams || {timestamp: 0.0, header: "Notes"}
+      sectionRef = fcon.setSection(sectionParams, videoKey, docKey);
+    } else {
+
+       // Find it to see if section exists.
+       possibleSect = $.find('.section-' + sectionRef.key());
+
        // don't do anything if the section has already been added.
-       return;
+       if (possibleSect.length > 0){
+         return;
+       }
     }
 
-
-
+    var codeMirror = addSectionEditorAndHeader(sectionRef, sectionParams);
 
     // Use this section reference to setup a new firepad
     var firepad = Firepad.fromCodeMirror(sectionRef, codeMirror, {
@@ -230,6 +255,8 @@ $(document).ready(function(){
       ctx.lineTo(drawLoc, 50);
       ctx.stroke();
 
+      addFirepadSection(fcon, videoKey, docKey, undefined, {timestamp: currTime, header: 'Notes at ' + currTime});
+
       $('<div/>', {
           class: 'timeline-thumb',
       }).css({"margin-left": drawLoc-prevLoc-5, "display": "inline-block"}).appendTo('#timeline-marks');
@@ -243,6 +270,7 @@ $(document).ready(function(){
     prevLoc = drawLoc;
 
   }
+
 
 
 });
