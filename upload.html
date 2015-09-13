@@ -66,14 +66,16 @@
           </div>
         </form> -->
         
-        <input type="file" id="file-chooser" /> 
-        <input type="file" id="thumbnail" /> 
+        <input type="file" id="file-chooser"/> 
+        <input type="file" id="thumbnail"/> 
 
         <a href="#" id="upload-button" class="waves-effect waves-grey grey darken-3 btn"><i class="material-icons left">open_in_browser</i>Upload</a>
         <div id="results"></div>
         </div>
         <div class="col s2"></div>
-
+        <div class="preview">
+          <img src=""/>
+        </div>
 
 
       </div>
@@ -134,6 +136,16 @@
    var thumbnail   = document.getElementById('thumbnail');
    var button      = document.getElementById('upload-button');
    var results     = document.getElementById('results');
+   var reader = new FileReader();
+
+   reader.onload = function(e){
+     $(".preview img").attr("src",e.target.result);
+   }
+   $("#thumbnail").on("change",function(e){
+
+
+    reader.readAsDataURL(thumbnail.files[0]);
+   });
    button.addEventListener('click', function() {
      var file = fileChooser.files[0];
      var thumbnailFile = thumbnail.files[0];
@@ -165,7 +177,8 @@
          console.log(data.Location,data.Key);
          var conn = new FirebaseConn();
          conn.setVideo("Video Title",data.Location,awsImageLoc,data.Key);
-         window.location.replace = "browse.html";
+
+         // window.location.replace = "browse.html";
        });
 
        bucket.upload(paramsThumbnail, function (err, data) {
@@ -176,7 +189,7 @@
           return;
          }
          awsImageLoc = data.Location;
-         return;
+
        });
      } else {
        results.innerHTML = 'Nothing to upload.';
