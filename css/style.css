@@ -34,48 +34,54 @@ min-height: 1px;
 
 /* browse page */
 
-/*.custom-card .card-image .card-title {
+.custom-card .card-image .card-title {
       position: absolute;
       bottom: 0;
       left: 0;
       padding-top: 50px;
       padding-left: 20px;
-  }*/
+  }
 .custom-card .card-content {
-	/*padding: 0px;*/
 	border-radius: 0 0 2px 2px; 
 }
 
 .custom-card .card-image .card-title {
 	position:absolute;
-	padding-top:0px;
+/*	margin-top:50px;
+	padding-top:150px;*/
 	padding-bottom:0px;
 }
 .custom-card {
 	padding-bottom: 0px;
 }
-
-.card.small {
-	height:170;
+.custom-card .card-title {
+	font-weight:400;
+	font-size: 1.1em;
+	color: black;
+	/*margin-top: 60px;*/
 }
+
+/*.card.small {
+	height:170;
+}*/
 .custom-card.small {
 	height: 120px;
 }
 
-.card.small .card-image {
+/*.card.small .card-image {
 	height: 200px; 
-}
+}*/
 
 
-.card .card-title {
+/*.card .card-title {
 	font-weight: 400;
 	font-size: 1.1em;
 	color: black;
-}
+}*/
 
-.card-title {
+/*.card-title {
 	margin-top: 60px;
-}
+}*/
 
 /* label color */
 .input-field label {
