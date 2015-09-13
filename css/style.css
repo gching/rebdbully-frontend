@@ -70,6 +70,10 @@ min-height: 1px;
  color: #000;
 }
 
+.preview-image{
+  height: 100px;
+  width: 100px;
+}
 
 
 
