@@ -32,6 +32,16 @@ min-height: 1px;
 	margin-right:2em;
 }
 
+/* browse page */
+
+.card.small {
+	height: 270px;
+}
+
+.card.small .card-image {
+	height: 180px; 
+}
+
 /* label color */
 .input-field label {
  color: grey;

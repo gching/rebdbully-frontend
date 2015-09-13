@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>VidulyNoted</title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <script src="js/test2.js"></script>
+  <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+  <script src="js/firebase_conn.js"></script>
+  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.2.0.min.js"></script>
+
+</head>
+<body>
+
+<nav class="white" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="portal.html" class="brand-logo"><img src="img/logo.png" class="nav-logo"/></a>
+
+      <ul id="nav-mobile" class="side-nav">
+        <li><a href="#">Navbar Link</a></li>
+
+      </ul>
+      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+    </div>
+  </nav>
+
+<!--   <nav class="orange darken-3">
+  <div class="nav-wrapper container centered">
+    <span style="font-size:2em">Video Name</span>
+    <span class="tab"></span>
+    <span style="font-size:1em;">Presenter Name</span>
+
+    <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+  </nav>  -->
+
+ 
+
+  <div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+    <br />
+
+      <!-- where the video goes -->
+      <div class="row center">
+
+        <h4>Upload a Presentation</h4>
+        <div class="col s2"></div>
+
+        <div class="col s8">
+
+   <!--      <form action="#">
+          <div class="file-field input-field">
+            <input class="file-path validate" type="text"/>
+            <div class="btn right" id="upload-button" style="text-align:right">
+              <span>Upload File</span>
+              <input type="file" />
+            </div>
+          </div>
+        </form> -->
+        
+        <input type="file" id="file-chooser" /> 
+        <a href="upload.html" id="upload-button" class="waves-effect waves-grey grey darken-3 btn"><i class="material-icons left">open_in_browser</i>Upload</a>
+        <div id="results"></div>
+        </div>
+        <div class="col s2"></div>
+
+
+
+      </div>
+
+    </div>
+  </div>
+
+
+<!--   <footer class="page-footer orange">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">Company Bio</h5>
+          <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+
+
+        </div>
+        <div class="col l3 s12">
+          <h5 class="white-text">Settings</h5>
+          <ul>
+            <li><a class="white-text" href="#!">Link 1</a></li>
+            <li><a class="white-text" href="#!">Link 2</a></li>
+            <li><a class="white-text" href="#!">Link 3</a></li>
+            <li><a class="white-text" href="#!">Link 4</a></li>
+          </ul>
+        </div>
+        <div class="col l3 s12">
+          <h5 class="white-text">Connect</h5>
+          <ul>
+            <li><a class="white-text" href="#!">Link 1</a></li>
+            <li><a class="white-text" href="#!">Link 2</a></li>
+            <li><a class="white-text" href="#!">Link 3</a></li>
+            <li><a class="white-text" href="#!">Link 4</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+      Made by <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+      </div>
+    </div>
+  </footer>
+ -->
+
+  <!--  Scripts-->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="js/materialize.js"></script>
+  <script src="js/init.js"></script>
+
+  <script>
+    $(document).ready(function(){
+
+      AWS.config = {
+      accessKeyId: "AKIAIXGABMVS5G5PKGZA",
+      secretAccessKey: "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",
+      sslEnabled: false
+     }
+     var bucket = new AWS.S3({params: {Bucket: 'mhacksvidnoted'}});
+
+     var fileChooser = document.getElementById('file-chooser');
+     var button = document.getElementById('upload-button');
+     var results = document.getElementById('results');
+     button.addEventListener('click', function() {
+       var file = fileChooser.files[0];
+       if (file) {
+         results.innerHTML = '';
+
+         var params = {Key: file.name, ContentType: file.type, Body: file};
+         bucket.upload(params, function (err, data) {
+         console.log(err);
+           results.innerHTML = err ? 'ERROR!' : 'UPLOADED.';
+         });
+       } else {
+         results.innerHTML = 'Nothing to upload.';
+       }
+     }, false);
+
+
+
+  });
+
+
+  </script>
+
+  </body>
+</html>
