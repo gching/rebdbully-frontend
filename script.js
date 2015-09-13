@@ -82,9 +82,10 @@ function createFirePad(fcon, videoKey, docKey) {
       console.log('render');
       console.log(entityHandler);
 
-      // Create a header with h2 tag
+      // Create span with class name.
       var headerWithTimestamp = document.createElement('span');
-      headerWithTimestamp.style['fontsize'] = '24px';
+      headerWithTimestamp.className = 'header-timestamp';
+
 
       if (info.timestamp){
         headerWithTimestamp.timestamp = info.timestamp;
