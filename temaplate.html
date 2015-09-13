@@ -59,10 +59,16 @@
           <div class="section center">
 
           <div id="myElement">Loading the player...</div>
+          <button onclick="buttonClick()">Make note at current time</button>
           <div id="annotatedNotes"></div>
 
           </div>
 
+
+          <div class="section">
+            <h2>Notes</h2>
+            <div id="firepad-container"></div>
+          </div>
 
         </div>
 
@@ -104,7 +110,7 @@
         $('#modal1').openModal();
 
         $('#room-create').click(function() {
-          var password = $('#icon_prefix').val()
+
           $('#modal1').closeModal();
         })
 
