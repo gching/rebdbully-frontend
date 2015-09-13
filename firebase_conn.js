@@ -57,12 +57,12 @@ FirebaseConn.prototype.getVideoKeyByUrl = function(url,callback){
   return key;
 }
 
-FirebaseConn.prototype.getLiveStream = function(url,title){
+FirebaseConn.prototype.getLiveStream = function(url,title,password{
   if (this.dbRefVids.orderByChild("src").equalTo(url).length>0){
     return this.getVideoKeyByUrl(url);
   }
   else{
-      return this.setVideo(url,title,url+"/1.jpg",null,Math.random(0,5));
+      return this.setVideo(url,title,url+"/1.jpg",null,password);
   }
 }
 
