@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>VidulyNoted</title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+<body>
+<!--   <nav class="light-blue lighten-1" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">MarkerView</a>
+
+      <ul id="nav-mobile" class="side-nav">
+        <li><a href="#">Navbar Link</a></li>
+
+      </ul>
+      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+    </div>
+  </nav> -->
+  <div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+      <br><br>
+      <h2 class="header center"><img src="img/logo.png" class="logo"/></h2>
+      <div class="row center">
+        <h5 class="header col s12 light grey-text">What are you watching today?</h5>
+      </div>
+
+      <br>
+
+    </div>
+  </div>
+
+
+  <div class="container">
+    <div class="section">
+
+      <!--   Icon Section   -->
+      <div class="row">
+        <div class="col s12 m6">
+          <div class="card red darken-3" id="live-card">
+            <div class="card-content white-text">
+              <div class="centered">
+                <i class="material-icons medium">call_made</i>
+                <div class="card-title">Enter Live Video</div>
+                <p>Enter your room code to join the meeting.</p><br />
+              <!-- </div>
+              <div class="card-action"> -->
+<!-- 
+              <div class="input-field col s10">
+                      <i class="material-icons medium prefix">lock_outline</i>
+                      <input id="icon_prefix" type="text" class="validate">
+                      <label for="icon_prefix">Room Pass</label>
+              </div> -->
+                  <a href="#roomcode" id="download-button" class="waves-effect red darken-1 waves-red btn modal-trigger">Join</a>
+              <!--   <a href="#">This is a link</a>
+                <a href="#">This is a link</a> -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col s12 m6">
+          <div class="card blue-grey" id="lib-card">
+            <div class="card-content white-text">
+              <div class="centered">
+                <i class="material-icons medium">video_library</i>
+                <div class="card-title">My Library</div>
+                <p>Browse videos and all your previous meetings.</p><br />
+              <!-- </div>
+              <div class="card-action"> -->
+                      <a href="browse.html" id="download-button" class="waves-effect waves-teal btn">Browse</a>
+
+              <!--   <a href="#">This is a link</a>
+                <a href="#">This is a link</a> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- end row -->
+
+      <div class="row">
+        <div class="section">
+        <div class="col s12 center">
+          <h6 class="grey-text">OR</h6>
+
+
+          <p><a href="#presentmodal" class="waves-effect waves-light amber btn-large modal-trigger"><i class="material-icons left">perm_identity</i>Presentor Mode</a></p>
+
+<!--           <a class="waves-effect waves-light amber btn-large"><i class="material-icons left">mic</i>Start a presentation</a></p>
+ -->        </div>
+        </div>
+      </div>
+
+        
+    </div> <!-- end section -->
+
+    </div>
+    <br><br>
+
+    <div class="section">
+
+    </div>
+
+      <div id="roomcode" class="modal bottom-sheet">
+        <div class="modal-content">
+          <div class="row">
+            <div class="col s3"></div>
+            <div class="col s6 centered">
+                <h4>Enter Room Pass</h4>
+
+              <div class="input-field">
+                <i class="material-icons medium prefix">lock_outline</i>
+                <input id="icon_prefix" type="text" class="validate">
+                <label for="icon_prefix">Room Pass</label>
+
+                <a href="player.html" id="join-room" class="waves-effect waves-teal btn">Join</a>
+
+              </div>
+            </div>
+            <div class="col s3"></div>
+          </div>
+        </div>
+      
+      </div>
+
+      <div id="presentmodal" class="modal bottom-sheet">
+        <div class="modal-content">
+          <div class="row">
+            <div class="col s3"></div>
+            <div class="col s6 center">
+                <h4>Presentor Mode</h4>
+
+              <div class="input-field">
+                <i class="material-icons medium prefix">lock_outline</i>
+
+                <a class="waves-effect waves-light light-green darken-2 btn-large"><i class="material-icons left">mic</i>Start a presentation</a>
+
+
+                <a href="upload.html" id="" class="waves-effect waves-grey grey darken-3 btn-large"><i class="material-icons left">open_in_browser</i>Upload</a>
+
+              </div>
+            </div>
+            <div class="col s3"></div>
+          </div>
+        </div>
+      
+      </div>
+  </div>
+
+<!--   <footer class="page-footer orange">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">Company Bio</h5>
+          <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+
+
+        </div>
+        <div class="col l3 s12">
+          <h5 class="white-text">Settings</h5>
+          <ul>
+            <li><a class="white-text" href="#!">Link 1</a></li>
+            <li><a class="white-text" href="#!">Link 2</a></li>
+            <li><a class="white-text" href="#!">Link 3</a></li>
+            <li><a class="white-text" href="#!">Link 4</a></li>
+          </ul>
+        </div>
+        <div class="col l3 s12">
+          <h5 class="white-text">Connect</h5>
+          <ul>
+            <li><a class="white-text" href="#!">Link 1</a></li>
+            <li><a class="white-text" href="#!">Link 2</a></li>
+            <li><a class="white-text" href="#!">Link 3</a></li>
+            <li><a class="white-text" href="#!">Link 4</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+      Made by <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+      </div>
+    </div>
+  </footer>
+ -->
+
+  <!--  Scripts-->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="js/materialize.js"></script>
+  <script src="js/init.js"></script>
+
+  <script>
+    $(document).ready(function(){
+    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+      $('.modal-trigger').leanModal();
+
+      $('#join-room').click(function() {
+        $('.validate').val('');
+      });
+    });
+
+  </script>
+
+  </body>
+</html>
