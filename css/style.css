@@ -123,7 +123,7 @@ min-height: 1px;
 .timeline-thumb {
 	width: 5px;
 	height: 10px;
-	border: 2px solid #cfcfcf;
+	border: 2px solid red;
 	background-color: white;
 }
 
