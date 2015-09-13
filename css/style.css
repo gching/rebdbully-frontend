@@ -34,23 +34,47 @@ min-height: 1px;
 
 /* browse page */
 
+/*.custom-card .card-image .card-title {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      padding-top: 50px;
+      padding-left: 20px;
+  }*/
+.custom-card .card-content {
+	/*padding: 0px;*/
+	border-radius: 0 0 2px 2px; 
+}
+
+.custom-card .card-image .card-title {
+	position:absolute;
+	padding-top:0px;
+	padding-bottom:0px;
+}
+.custom-card {
+	padding-bottom: 0px;
+}
+
 .card.small {
-	height: 240px;
+	height:170;
+}
+.custom-card.small {
+	height: 120px;
 }
 
 .card.small .card-image {
 	height: 200px; 
 }
 
-.card .card-image .card-title .card-content{
-	padding-top: 0px;
-	padding-bottom: 0px;
-
-}
 
 .card .card-title {
+	font-weight: 400;
 	font-size: 1.1em;
 	color: black;
+}
+
+.card-title {
+	margin-top: 60px;
 }
 
 /* label color */

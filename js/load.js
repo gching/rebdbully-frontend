@@ -16,7 +16,7 @@ $(document).ready(function(){
                               '<span class="card-title">'+data.title+'</span>'+
                               '</div>')
 
-    $(".gallery").append('<div class="col m4 s12">'+
+    $(".gallery").append('<div class="col m4 s12 custom-card">'+
                             '<div class="card small ">' + 
                              $a.prop('outerHTML') +
                             '<div class="card-content">' +
