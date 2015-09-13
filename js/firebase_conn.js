@@ -190,11 +190,13 @@ FirebaseConn.prototype.setDocument = function(owner,videoKey,documentKey){
 
 
 // Create new Video, or update
-FirebaseConn.prototype.setVideo = function(title,fileLoc,thumbnailLoc, videoKey,password){
+FirebaseConn.prototype.setVideo = function(title,fileLoc,thumbnailLoc, videoKey,password,description){
   // By default, assume it's a new video being saved
   videoKey     = videoKey || null;
 
   password     = password || '';
+
+  description  = description || '';
 
   console.log(fileLoc,thumbnailLoc);
   // Checks!
@@ -214,7 +216,8 @@ FirebaseConn.prototype.setVideo = function(title,fileLoc,thumbnailLoc, videoKey,
     title: title,
     src: fileLoc,
     thumbnailLoc: thumbnailLoc,
-    password: password
+    password: password,
+    description: description
   });
 
   var newVideoKey = newVideo.key();

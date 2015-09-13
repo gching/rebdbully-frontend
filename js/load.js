@@ -20,7 +20,7 @@ $(document).ready(function(){
                             '<div class="card small ">' + 
                              $a.prop('outerHTML') +
                             '<div class="card-content">' +
-                              '<p>Some description about the vid.</p>' +
+                              '<p>'+(data.description ? data.description : 'Video Description Here')+'</p>' +
                             '</div></div></div>');
   }
               
