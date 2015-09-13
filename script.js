@@ -18,6 +18,7 @@ playerInstance.setup({
 
 var docKey = null;
 var docReady = false;
+var annotatedNotes = [];
 
 var duration = [];
 playerInstance.on('time', function(event) {
@@ -67,6 +68,22 @@ var fcon = new FirebaseConn();
     // Given the timestamp we create a section with the given docKey
     // and get a refernece to it.
     var newSectionRef = fcon.setSection(timestamp, videoKey, docKey);
+    annotatedNotes.push([videoKey, docKey, newSectionRef.key(), timestamp]);
+
+    var button = document.createElement("input");
+    button.type = "button";
+    button.value = timestamp.toFixed(2)+"s";
+    button.onclick = function() {
+      console.log([videoKey, docKey, newSectionRef.key(), timestamp]);
+      document.querySelector("#"+newSectionRef.key()).style.display = "block";
+
+      for (var annotatedNote of annotatedNotes) {
+        if (annotatedNote[2] !== newSectionRef.key()) {
+          document.querySelector("#"+annotatedNote[2]).style.display = "none";
+        }
+      }
+    };
+    document.querySelector("#annotatedNotes").appendChild(button);
 
     // Use this section reference to setup a new firepad
     var codeMirror = CodeMirror(document.getElementById('firepad-container'), { lineWrapping: true });
@@ -82,6 +99,7 @@ var fcon = new FirebaseConn();
       }
     });
 
+    firepad.firepadWrapper_.id = newSectionRef.key();
     firepad.registerEntity('headertimestamp', {
 
       /**
@@ -119,7 +137,7 @@ var fcon = new FirebaseConn();
         // TODO  Set the timestamp attribute
         var timestampEle = element.attributes.timestamp
         console.log(timestampEle)
-        var info = {timestamp: '7000', textContent: element.textContent};
+        var info = {timestamp: timestampEle.value, textContent: element.textContent};
         return info;
       },
       /**
