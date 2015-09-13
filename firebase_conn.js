@@ -61,7 +61,7 @@ FirebaseConn.prototype.getVideos = function(callback){
 // Requires a the key value representing the video, as well as the key name for the document
 // Requires a callback
 FirebaseConn.prototype.getDocument = function(videoKey,documentKey,callback){
-  this.dbRefVids.orderByKey().equalTo(videoKey).child(documentKey).on("child_added",function(data){
+  this.dbRefVids.orderByKey().equalTo(videoKey).child("docs").child(documentKey).on("child_added",function(data){
     console.log(data.key(),data.val());
     callback(data.key(),data.val());
   });
@@ -71,7 +71,7 @@ FirebaseConn.prototype.getDocument = function(videoKey,documentKey,callback){
 // Requires the key value for the video
 // Requires a callback
 FirebaseConn.prototype.getDocuments = function(videoKey,callback){
-  this.dbRefVids.orderByKey().equalTo(videoKey).on('child_added',function(data){
+  this.dbRefVids.orderByKey().equalTo(videoKey).child("docs").on('child_added',function(data){
     console.log("getDocuments",data.key(),data.val());
     callback(data.key(),data.val());
   });
