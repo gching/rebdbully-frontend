@@ -52,7 +52,7 @@
       <div class="row">
 
         <h4>Upload a Presentation</h4>
-        <div class="col s6">
+        <div class="col s12 md6">
           <form class action="#">
             <div class="file-field input-field">
               <input class="file-path validate" type="text"/>
@@ -64,7 +64,7 @@
             <br/>
           </form>
         </div>
-        <div class="col s6">
+        <div class="col s12 md6">
           <form class action="#">
             <div class="file-field input-field">
               <input class="file-path validate" type="text"/>
@@ -75,20 +75,23 @@
             </div>
           </form>
         </div>
-        
-        <div class="col s12" style="padding-top: 40px;">
-          <a href="#" id="upload-button" class="waves-effect waves-grey grey darken-3 btn"><i class="material-icons left">open_in_browser</i>Upload</a>
-          <div id="results"></div>
-          </div>
+        <div class="col s12">
+          <input type="text" name="title" placeholder="Enter a Video Title"/>
         </div>
         <div class="preview col s4">
           <p>Thumbnail Preview</p>
           <img src="" class="preview-image" style="display:none;" />
         </div>
         <div class="col s12">
-          <label>Choose a meeting password.</label>
-          <input type="text" name="meeting-password" placeholder="Meeting Password"/>
+          <label>Choose an optional meeting password.</label>
+          <input type="text" name="meeting-password" placeholder="(Optional) Meeting Password"/>
+        </div>
+        <div class="col s12" style="padding-top: 40px;">
+          <a href="#" id="upload-button" class="waves-effect waves-grey grey darken-3 btn"><i class="material-icons left">open_in_browser</i>Upload</a>
           <p class="share-link">Share this link to invite others to watch this meeting: <a href="#" class="link"></a></p>
+          
+          <div id="results"></div>
+          </div>
         </div>
 
 
@@ -153,7 +156,8 @@
          console.log(data.Location,data.Key);
          var conn = new FirebaseConn();
          var password = $("input[name='meeting-password']").val();
-         conn.setVideo("Video Title",data.Location,awsImageLoc,data.Key,password);
+         var title = $("input[name='title']").val();
+         conn.setVideo(title,data.Location,awsImageLoc,data.Key,password);
 
          $(".share-link a").text(data.Location)
                               .attr("href",data.Location);

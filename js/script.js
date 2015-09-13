@@ -3,7 +3,7 @@
 	var playerInstance = jwplayer('myElement');
 
 	playerInstance.setup({
-	  file: 'pageinfo-close-window.mp4',
+	  file: '',
 	  width: '640px',
 	  height: '360px'
 	});
