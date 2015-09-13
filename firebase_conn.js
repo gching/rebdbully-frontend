@@ -45,8 +45,16 @@ FirebaseConn.prototype.getVideo = function (videoKey,callback){
     console.log("getVideo",data.key(),data.val());
     callback(data.key(),data.val());
   }); 
-
 };
+
+FirebaseConn.prototype.getLiveStream = function(url,callback){
+  if (this.dbRefVids.orderByChild("src").equalTo(url).length>0){
+    console.log('exist');
+  }
+  else{
+    console.log('doesnt exist');
+  }
+}
 
 // Fetches all Videos
 // Requires a callback function
@@ -169,7 +177,7 @@ FirebaseConn.prototype.setDocument = function(owner,videoKey,documentKey){
 // Create new Video, or update
 FirebaseConn.prototype.setVideo = function(title,fileLoc,videoKey){
   // By default, assume it's a new video being saved
-  videoKey = videoKey || null;
+  videoKey     = videoKey || null;
 
   // Checks!
 
@@ -186,9 +194,10 @@ FirebaseConn.prototype.setVideo = function(title,fileLoc,videoKey){
 
   var newVideo = this.dbRefVids.push({
     title: title,
-    src: fileLoc
+    src: fileLoc,
   });
 
   var newVideoKey = newVideo.key();
+  console.log(newVideoKey);
 }
 
