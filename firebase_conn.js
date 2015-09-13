@@ -184,6 +184,7 @@ FirebaseConn.prototype.setVideo = function(title,fileLoc,thumbnailLoc, videoKey)
   // By default, assume it's a new video being saved
   videoKey     = videoKey || null;
 
+  console.log(fileLoc,thumbnailLoc);
   // Checks!
 
   // TODO: Find parameters and do checks

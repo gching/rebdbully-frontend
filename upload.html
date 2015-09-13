@@ -30,6 +30,7 @@
    button.addEventListener('click', function() {
      var file = fileChooser.files[0];
      var thumbnailFile = thumbnail.files[0];
+     console.info(thumbnailFile);
      if (file) {
        results.innerHTML = '';
        var paramsThumbnail = {
@@ -45,6 +46,8 @@
         Body: file,
         ACL: "public-read"
       };
+
+      var awsImageLoc = null;
        bucket.upload(paramsVideo, function (err, data) {
          results.innerHTML = err ? 'ERROR!' : 'UPLOADED.';
 
@@ -54,7 +57,7 @@
          }
          console.log(data.Location,data.Key);
          var conn = new FirebaseConn();
-         conn.setVideo("Video Title",data.Location,data.Key);
+         conn.setVideo("Video Title",data.Location,awsImageLoc,data.Key);
          return;
        });
 
@@ -65,7 +68,7 @@
           console.error(err);
           return;
          }
-         console.log(data.Location,data.Key);
+         awsImageLoc = data.Location;
          return;
        });
      } else {
