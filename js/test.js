@@ -15,8 +15,6 @@ $(document).ready(function(){
   });
 
 
-
-
   var conn = new FirebaseConn();
 
   conn.setVideo("Grouse Mountain","http://res.cloudinary.com/dtniqc2hg/video/upload/v1442068319/VID_20150813_132528289_zbic2d.mp4");

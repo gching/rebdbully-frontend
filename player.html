@@ -50,17 +50,28 @@
     <br />
 
       <!-- where the video goes -->
-      <div class="row center">
+      <div class="row">
 
-        <div class="col s12">
+        <div class="col s1"></div>
+        <div class="col s10">
 
-        <div id="myElement">Loading the player...</div>
-        <a href="#" onclick='playerInstance.play()'>Toggle playback</a>
-        <a href="#" onclick='alert(playerInstance.getVolume())'>Report volume</a>
-        <button onclick="timeStamp()">create timestamp</button>
+        <div class="position:relative">
+          <div id="myElement">Loading the player...</div>
 
+          <canvas id="myCanvas" width="640" height="50">
+          Your browser does not support the canvas element.
+          </canvas><br />
+          <div id="timeline-marks" style="width:640px;height:50px;position:relative">
+            
 
-        <img src="http://placehold.it/560x315?text=Sample+Video" class="responsive-img"/>
+          </div>
+          <a href="#" onclick='playerInstance.play()'>Toggle playback</a>
+          <a href="#" onclick='alert(playerInstance.getVolume())'>Report volume</a>
+          <button onclick="timeStamp()">create timestamp</button>
+          </div>
+        </div>
+        <div class="col s1"></div>
+
         </div>
 
         <div class="col s6">
@@ -126,11 +137,7 @@
 
 
   <script>
-    $(document).ready(function(){
-
-
-
-  });
+    
 
 
   </script>

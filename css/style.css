@@ -70,7 +70,12 @@ min-height: 1px;
  color: #000;
 }
 
-
+.timeline-thumb {
+	width: 5px;
+	height: 10px;
+	border: 2px solid #cfcfcf;
+	background-color: white;
+}
 
 
 h2 {
