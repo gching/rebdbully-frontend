@@ -137,4 +137,12 @@ h2 {
   width: 100%;
 }
 
+.CodeMirror{
+  border: 1px solid rgba(0, 0, 0, 0.27);
+  min-height: 200px;
+}
 
+.firepad{
+  border: 1px solid rgba(0, 0, 0, 0.27);
+  background-color: rgba(128, 128, 128, 0.07);
+}
