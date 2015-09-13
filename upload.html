@@ -11,11 +11,14 @@
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-  <script src="js/test2.js"></script>
+
+  <!--  Scripts-->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
   <script src="js/firebase_conn.js"></script>
   <script src="https://sdk.amazonaws.com/js/aws-sdk-2.2.0.min.js"></script>
-
+  <script src="js/materialize.js"></script>
+ 
 </head>
 <body>
 
@@ -64,7 +67,7 @@
         </form> -->
         
         <input type="file" id="file-chooser" /> 
-        <a href="upload.html" id="upload-button" class="waves-effect waves-grey grey darken-3 btn"><i class="material-icons left">open_in_browser</i>Upload</a>
+        <a href="#" id="upload-button" class="waves-effect waves-grey grey darken-3 btn"><i class="material-icons left">open_in_browser</i>Upload</a>
         <div id="results"></div>
         </div>
         <div class="col s2"></div>
@@ -114,10 +117,8 @@
   </footer>
  -->
 
-  <!--  Scripts-->
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="js/materialize.js"></script>
-  <script src="js/init.js"></script>
+
+  
 
   <script>
     $(document).ready(function(){
@@ -140,7 +141,10 @@
          var params = {Key: file.name, ContentType: file.type, Body: file};
          bucket.upload(params, function (err, data) {
          console.log(err);
-           results.innerHTML = err ? 'ERROR!' : 'UPLOADED.';
+          results.innerHTML = err ? 'ERROR!' : 'UPLOADED.';
+          if (err == null) {
+            window.location.replace("browse.html");
+          }
          });
        } else {
          results.innerHTML = 'Nothing to upload.';
