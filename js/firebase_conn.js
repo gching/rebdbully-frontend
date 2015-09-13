@@ -67,7 +67,10 @@ FirebaseConn.prototype.getLiveStream = function(url,title,password){
     return this.getVideoKeyByUrl(url);
   }
   else{
-      return this.setVideo(title,url,url+"/1.jpg",null,password,"Live Meeting");
+    var regex = new RegExp("([a-zA-Z0-9\/\:\.\?]*)v=([a-zA-Z0-9]*)");
+    var matches = url.match(regex);
+    var i = matches[matches.length-1];
+      return this.setVideo(title,url,"http://img.youtube.com/vi/"+i+"/1.jpg",null,password,"Live Meeting");
   }
 }
 
