@@ -20,7 +20,8 @@ $(document).ready(function(){
       file: data.src,
       width: '640px',
       height: '360px',
-      title: data.title
+      title: data.title,
+      image: data.thumbnailLoc
     });
 
   }
