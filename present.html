@@ -10,15 +10,6 @@
   <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="js/materialize.js"></script>
-  <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
-  <script src="js/firebase_conn.js"></script>
-
-  <script src="js/player.js"></script>
-
-
-
 
 </head>
 <body>
@@ -34,9 +25,9 @@
     </div>
   </nav>
 
-  <nav class="orange darken-3">
+  <nav class="red darken-3">
   <div class="nav-wrapper container centered">
-    <span style="font-size:2em" class="video-name">Video Name</span>
+    <span style="font-size:2em">Video Name</span>
     <span class="tab"></span>
     <span style="font-size:1em;">Presenter Name</span>
 <!--   <ul class="right hide-on-med-and-down">
@@ -59,28 +50,13 @@
       <!-- where the video goes -->
       <div class="row">
 
-        <div class="col s1"></div>
-        <div class="col s10">
+        <div class="col s12">
 
-        <div class="position:relative">
-          <div id="myElement">Loading the player...</div>
+        <span style="font-size:1.5em">• Live</span><br />
 
-          <canvas id="myCanvas" width="640" height="50">
-          Your browser does not support the canvas element.
-          </canvas><br />
-          <div id="timeline-marks" style="width:640px;height:50px;position:relative">
-            
+        <div class="section center">
 
-          </div>
-          <a href="#" onclick='playerInstance.play()'>Toggle playback</a>
-          <a href="#" onclick='alert(playerInstance.getVolume())'>Report volume</a>
-          <button onclick="timeStamp()">create timestamp</button>
-          </div>
-        </div>
-        <div class="col s1"></div>
-
-        <video width="700" height="600" controls class="player responsive-img">
-        </video>
+        <img src="http://placehold.it/560x315?text=Sample+Video" class="responsive-img"/>
         </div>
 
         <div class="col s6">
@@ -90,11 +66,32 @@
 
           </div>
         </div>
+        </div>
 
 
 
       </div>
 
+    </div>
+  </div>
+
+
+
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <div class="modal-content center">
+
+      <h4>Create a Room Code</h4>
+      <p>This is how people will be able to join your room.</p>
+
+      <div class="input-field">
+        <i class="material-icons medium prefix">label</i>
+        <input id="icon_prefix" type="text" class="validate">
+        <label for="icon_prefix">Room Pass</label>
+
+        <a id="room-create" class="waves-effect waves-teal btn">Join</a>
+
+      </div>
     </div>
   </div>
 
@@ -137,21 +134,23 @@
  -->
 
   <!--  Scripts-->
-<<<<<<< HEAD
-=======
-
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
-  <script src="http://content.jwplatform.com/libraries/sleX0qsA.js"></script>
-  <script src="js/script.js"></script>
-
 
   <script>
-    
+    $(document).ready(function(){
 
->>>>>>> 9deb6295bd93316faeec2a222997a397807acf73
+        $('#modal1').openModal();
 
+        $('#room-create').click(function() {
+          $('#modal1').closeModal();
+        })
+
+  });
+
+
+  </script>
 
   </body>
 </html>
