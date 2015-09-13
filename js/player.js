@@ -7,7 +7,7 @@ $(document).ready(function(){
       if (pair[0] == variable) {
         return pair[1];
       }
-    } 
+    }
     return null;
   }
 
@@ -78,10 +78,36 @@ $(document).ready(function(){
 
   conn.getVideo(key,populateVideo);
 
-    var prevLoc = 0; 
+    var prevLoc = 0;
 
   $('#timestamp-func').click(function(){timeStamp()});
 
+  /********************* Document stuff ************************/
+  var videoKey = key;
+  var docKey;
+  fcon.getDocuments(videoKey, function(key, value) {
+    docKey = key;
+    if (docKey === null) {
+      // Case when empty document
+      docKey = fcon.setDocument('random-owner', videoKey);
+    } else {
+
+      //  Get the sections for each of them and show them?
+      fcon.getSections(videoKey, docKey, function(section_key, section_data){
+        console.log('#getSections callback');
+        console.log(section_key, section_data);
+      });
+    }
+    firepad = createFirePad(fcon, videoKey, docKey);
+    docReady = true;
+  });
+
+
+
+
+  /**
+    At the current time, create a cursor and a new section in the document.
+  */
   function timeStamp(){
     var totalTime = playerInstance.getDuration();
     var currTime = duration[duration.length-1];
@@ -103,7 +129,7 @@ $(document).ready(function(){
     }
 
     prevLoc = drawLoc;
-    
+
   }
 
 
