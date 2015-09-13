@@ -11,23 +11,17 @@ $(document).ready(function(){
     return null;
   }
 
-  function populateVideo(data){
+  function populateVideo(key,data){
+    console.log('populateVideo',data);
     $(".video-name").text(data.title);
+    var playerInstance = jwplayer('myElement');
 
-    var $source = $("<source>");
-    $source.attr("type","video/mp4");
-    $source.attr("src",data.src);
-    $("video").append($source);
-
-    $source = $("<source>");
-    $source.attr("type","video/webm");
-    $source.attr("src",data.src);
-    $("video").append($source);
-
-    $source = $("<source>");
-    $source.attr("type","video/ogg");
-    $source.attr("src",data.src);
-    $("video").append($source);
+    playerInstance.setup({
+      file: data.src,
+      width: '640px',
+      height: '360px',
+      title: data.title
+    });
 
   }
 
