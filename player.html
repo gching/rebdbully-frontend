@@ -10,6 +10,13 @@
   <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="js/materialize.js"></script>
+  <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+  <script src="js/firebase_conn.js"></script>
+
+  <script src="js/player.js"></script>
+
 
 </head>
 <body>
@@ -52,7 +59,8 @@
 
         <div class="col s12">
 
-        <img src="http://placehold.it/560x315?text=Sample+Video" class="responsive-img"/>
+        <video width="320" height="240" controls class="player responsive-img">
+        </video>
         </div>
 
         <div class="col s6">
@@ -109,19 +117,7 @@
  -->
 
   <!--  Scripts-->
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="js/materialize.js"></script>
-  <script src="js/init.js"></script>
 
-  <script>
-    $(document).ready(function(){
-
-
-
-  });
-
-
-  </script>
 
   </body>
 </html>

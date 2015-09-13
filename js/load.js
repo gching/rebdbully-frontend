@@ -2,14 +2,13 @@ $(document).ready(function(){
   var conn = new FirebaseConn();
 
   var addVideo = function(key,data){
+    console.log(data);
     // var link = $('<a>').attr({
     //                           href: '#',
     //                           src: data.src,
     //                           id: key});
-
     var $a = $("<a>"); // need the video page link
-    $a.attr('href', 'http://www.google.com');
-    console.log(data.title);
+    $a.attr('href', 'player.html?key='+key);
     $a.data("src-vid",data.src);
     $a.attr("id",key);
     $a.append('<div class="card-image">' + 
